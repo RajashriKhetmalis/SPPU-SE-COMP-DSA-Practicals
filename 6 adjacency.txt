@@ -1,0 +1,163 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+struct node {
+    string city;
+    node* next;
+};
+class graph
+{
+public:
+    int n;
+    node *head[20];  
+    node *temp=NULL;
+    string c [10];
+    int graph[10][10];
+    void display();
+    void adjlist();
+    void acceptadjacmatrix()
+    {
+        int i, j;
+        cout << "\nEnter number of cities: ";
+        cin >> n;
+        cout << "\nEnter name of cities:\n";
+        for (i = 0; i < n; i++)
+        {
+           cin>>c[i];
+        }
+        for(i=0;i<n;i++)
+        {
+            for (j= 0; j < n; j++)
+            {
+               if (i!=j)
+                {
+                    cout << "Is there an edge between vertex " << c[i] << " and " <<c[j] << "? (1 for yes, 0 for no): ";
+                    cin >> graph[i][j];
+                }
+                else
+                {
+                    graph[i][j] = 0;
+                }
+            }
+        }
+    }
+};    
+    
+void graph::display()
+    {
+        int i, j;
+        cout << "\nAdjacency Matrix:\n";
+        for(i=0;i<n;i++)
+        {
+           cout<<"\t"<<c[i] ;
+        }
+        cout<<endl;
+        for (i = 0; i < n; i++)
+        {
+            cout<<c[i]<<"\t";
+            for (j = 0; j < n; j++)
+            {
+                cout << graph[i][j] << "\t";
+            }
+            cout << endl;
+        }
+    }
+    
+        
+void graph::adjlist()
+{     
+    int i,j;
+       for(i=0;i<n;i++)
+       { 
+          node *p=new node;
+          p->next=NULL;
+          p->city=c[i];   
+          head[i]=p;      // cout<<"\n"<<head[i]->vertex;
+       }
+     
+       for(i=0;i<n;i++)
+       {  for(j=0;j<n;j++)
+          {
+                   if(graph[i][j]==1)
+                   {      
+                         node *p=new node;
+                         p->city=c[j];
+                         p->next=NULL;
+                         if(head[i]->next==NULL)
+                         {  head[i]->next=p;   }
+                         else
+                         {  temp=head[i];
+                         while(temp->next!=NULL)
+                         {   temp=temp->next;  }
+                             temp->next=p;
+                         }
+
+                   }
+
+          }
+       }
+       cout<<"\n adjacency list is"<<endl;
+       for(i=0;i<n;i++)
+       {
+                 
+             
+                         if(head[i]==NULL)
+                         {   cout<<"\n adjacency list not present";  break;   }
+                         else
+                         {
+                            cout<<"\n"<<head[i]->city;
+                         temp=head[i]->next;
+                         while(temp!=NULL)
+                         {  cout<<"-> "<<temp->city;
+                            temp=temp->next;  }
+                            
+                         }
+
+                  
+
+         
+       }
+       
+}
+
+int main()
+{
+    graph G;
+    int choice;
+    do {
+        cout << "\nMenu:\n";
+        cout << "1. Accept adjacency matrix and display\n";
+        cout << "2. Accept adjacency list and display\n";
+        cout<<"3.Exit"<<endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                G.acceptadjacmatrix();
+                G.display();
+                break;
+            case 2:
+                G.adjlist();
+                break;
+            case 3:
+                cout<<"Exited the program";
+                break;
+            default:
+                cout << "Invalid choice. \n";
+                break;
+        }
+    } while (choice != 3);
+return 0;
+}
+
+
+
+
+There are flight paths between cities. If there is a flight between city A and city B then there
+is an edge between the cities. The cost of the edge can be the time that flight takes to reach
+city B from A, or the amount of fuel used for the journey. Represent this as a graph. The node
+can be represented by airport name or name of the city. Use adjacency list representation of
+the graph or use adjacency matrix representation of the graph.
+
+

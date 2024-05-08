@@ -1,0 +1,112 @@
+max=10
+def linear_p(ht, flag, name):
+    x=int(input("Enter the telephone number: "))
+    loc=x%max
+    if(flag[loc]==0):
+        ht[loc]=x
+        name[loc]=input("Enter the name: ")
+        flag[loc]=1
+    else:
+        i=0
+        while(flag[loc]==1 and i<max):
+            loc=(loc+1)%max
+            i=i+1
+        if(i<max):
+            ht[loc]=x
+            name[loc]=input("Enter the name: ")
+            flag[loc]=1
+        else:
+            print("Hash table is full")
+            
+def search_lp(ht, flag, name):
+    x=int(input("Enter the telephone number you want to search: "))
+    loc=x%max
+    if(flag[loc]==1 and ht[loc]==x):
+        print("telephone no. is found at")
+        print("%d %d %s"%(loc, ht[loc], name[loc]))
+    else:
+        i=0
+        while(flag[loc]==1 and i<max):
+            loc=(loc+1)%max
+            i=i+1
+            if(ht[loc]==x):
+                print("telephone no. is found at")
+                print("%d %d %s"%(loc, ht[loc], name[loc]))
+                return -1
+        print("element not found")
+
+def display(ht, flag, name):
+    for i in range(max):
+        if(flag[i]==0):
+            print("-- -- --")
+        else:
+            print("%d %d %s"%(i,ht[i],name[i]))
+
+def double_h(ht, flag, name):
+    x=int(input("Enter the telephone number: "))
+    loc1=x%max
+    loc2=7-(x%7)
+    if(flag[loc1]==0):
+        ht[loc1]=x
+        name[loc1]=input("Enter the name: ")
+        flag[loc1]=1
+    else:
+        i=0
+        while(flag[loc1]==1 and i<max):
+            loc1=(loc1+(i*loc2))%max
+            i=i+1
+        if(i<max):
+            ht[loc1]=x
+            name[loc1]=input("Enter the name: ")
+            flag[loc1]=1
+        else:
+            print("Hash table is full")
+
+def search_dh(ht, flag, name):
+    x=int(input("Enter the telephone number you want to search: "))
+    loc1=x%max
+    loc2=7-(x%7)
+    if(flag[loc1]==1 and ht[loc1]==x):
+        print("telephone no. is found at")
+        print("%d %d %s"%(loc1, ht[loc1], name[loc1]))
+    else:
+        i=0
+        while(flag[loc1]==1 and i<max):
+            loc1=(loc1+(i*loc2))%max
+            i=i+1
+            if(ht[loc1]==x):
+                print("telephone no. is found at")
+                print("%d %d %s"%(loc1, ht[loc1], name[loc1]))
+                return -1
+        print("element not found")
+
+def main():
+    ht=[0]*max
+    flag=[0]*max
+    name=[0]*max
+    while True:
+        print("1.using linear probing")
+        print("2.using double hashing")
+        print("3.Exit")
+        ch=int(input("Enter your choice: "))
+        if(ch==3):
+            print("End of program")
+        elif(ch==2):
+            print("----Double Hashing----")
+            double_h(ht, flag, name)
+            display(ht, flag, name)
+            search_dh(ht, flag, name)
+        elif(ch==1):
+            print("----Linear probing----")
+            linear_p(ht, flag, name)
+            display(ht, flag, name)
+            search_lp(ht, flag, name)
+main()
+
+
+
+Consider telephone book database of N clients. Make use of a hash table implementation
+to quickly look up client‘s telephone number. Make use of Linear Probing collision handling
+techniques and compare them using number of comparisons required to find a set of
+telephone numbers.
+

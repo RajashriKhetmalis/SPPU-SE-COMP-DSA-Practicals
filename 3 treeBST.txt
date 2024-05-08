@@ -1,0 +1,170 @@
+
+#include<iostream>
+using namespace std;
+
+struct node
+{
+    int data;
+    node* right;
+    node* left;
+};
+
+node* insert(node* T, int x)
+{
+    node* p, * q, * r;
+    r = new node;
+    r->data = x;
+    r->left = NULL;
+    r->right = NULL;
+    if (T == NULL)
+        return r;
+    p = T;
+    while (p != NULL)
+    {
+        q = p;
+        if (x > p->data)
+            p = p->right;
+        else
+            p = p->left;
+    }
+    if (x > q->data)
+        q->right = r;
+    else
+        q->left = r;
+    return T;
+}
+
+node* create()
+{
+    int n, x;
+    node* root = NULL;
+    cout << "Enter the number of nodes: ";
+    cin >> n;
+    cout << "Enter value of nodes: ";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> x;
+        root = insert(root, x);
+    }
+    return root;
+}
+void inorder(node* root)
+{
+    if (root != NULL)
+    {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+node* find_min(node*T)
+{
+    while(T->left!=NULL)
+        T=T->left;
+    cout<<"\nMinimum node="<<T->data;
+    return(T);
+}
+node* find_max(node*T)
+{
+    while(T->right!=NULL)
+        T=T->right;
+    cout<<"\nMaximum node="<<T->data;
+    return(T);
+}
+
+int ht(node *T)
+{
+    int hl,hr;
+    if(T==NULL)
+        return 0;
+    if(T->left==NULL&&T->right==NULL)
+        return 0;
+    hl=ht(T->left);
+    hr=ht(T->right);
+    if(hl>hr)
+        return(hl+1);
+    return(hl+1);
+}
+node*search(node*T,int x)
+{
+    while(T!=NULL)
+    {
+        if(x==T->data)
+            return(T);
+        if(x>T->data)
+            T=T->right;
+        else
+            T=T->left;
+    }
+    return NULL;
+}
+
+int main()
+{
+    node* root = NULL;
+    int choice, x;
+    do {
+        cout << "\nBinary Search Tree Operations";
+        cout << "\n1. Create a Binary Search Tree";
+        cout << "\n2. Insert a node";
+        cout << "\n3. Search for a node";
+        cout << "\n4. Find the minimum node";
+        cout << "\n5. Find the maximum node";
+        cout << "\n6. NO. of nodes on the longest path";
+        cout << "\n7. Display the tree (inorder traversal)";
+        cout << "\n8. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+        
+        switch(choice) 
+        {
+            case 1:
+                root = create();
+                break;
+            case 2:
+                cout << "Enter the node you want to insert: ";
+                cin >> x;
+                insert(root, x);
+                break;
+            case 3:
+                cout << "Enter the node you want to search: ";
+                cin >> x;
+                if (search(root, x) != NULL)
+                    cout << "Node found in the tree.\n";
+                else
+                    cout << "Node not found in the tree.\n";
+                break;
+            case 4:
+                find_min(root);
+                break;
+            case 5:
+                find_max(root);
+                break;
+            case 6:
+                cout << "\nNumber of nodes on the longest path: " << ht(root)+1 << endl;
+                break;
+            case 7:
+                cout << "Inorder traversal: ";
+                inorder(root);
+                cout << endl;
+                break;
+            case 8:
+                cout << "Exiting program\n";
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid choice.\n";
+        }
+    } while (choice != 8);
+
+    return 0;
+}
+
+
+
+Beginning with an empty binary search tree, Construct binary search tree by inserting the
+values in the order given. After constructing a binary tree -
+i. Insert new node,
+ii. Find number of nodes in longest path from root,
+iii. Minimum data value found in the tree,
+iv. Change a tree so that the roles of the left and right pointers are swapped at every node,
+v. Search a value

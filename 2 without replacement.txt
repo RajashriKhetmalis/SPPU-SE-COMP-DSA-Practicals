@@ -1,0 +1,61 @@
+def insert(key, name, ht, flag, chain, value):
+    i=0
+    loc=key%10
+    while(flag[loc]==1 and i<10):
+        if(ht[loc]%10==key%10):
+            break
+        loc=(loc+1)%10
+        i=i+1
+    while(chain[loc]!=-1):
+        loc=chain[loc]
+    j=loc
+    while(flag[j] and i<10):
+        j=(j+1)%10
+        i=i+1
+    ht[j]=key
+    value[j]=name
+    flag[j]=1
+
+    if(j!=loc):
+        chain[loc]=j
+    
+def display(ht, flag, value, chain):
+    for i in range(0, 10):
+        if(flag[i]==1 and i<10):
+            print(i," ", ht[i]," ", value[i]," ", flag[i]," ", chain[i])
+        else:
+            print(i," ","--"," ","--"," ",flag[i]," ",chain[i])
+
+def search(ht, flag, chain):
+    x=int(input("Enter a element to search: "))
+    j=x%10
+    i=0
+    while(i<10 and flag[j] and ht[j]%10!=x%10):
+        i+=1
+        j=(j+1)%10
+    if(i==10 or not flag[j]):
+        print("key is not found")
+        return 0
+    while j != -1:
+        if ht[j]==x:
+            print("key found at index: ", j)
+            return
+    j=chain[j]
+
+def main():
+    ht=[0]*10
+    value=[0]*10
+    flag=[0]*10
+    chain=[]
+    for i  in range(10):
+        x=-1
+        chain.append(x)
+    n=int(input("Enter a number: "))
+    for i in range(n):
+        key=int(input("Enter a key: "))
+        name=int(input("Enter a value: "))
+        insert(key, name, ht, flag, chain, value)
+    display(ht, flag, value, chain)
+    search(ht, flag, chain)
+main()
+
